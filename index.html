@@ -577,26 +577,20 @@ function editSelected(){
     editWorkout(index);
 
 }
+
 function completeSelected(){
 
     if(selectedWorkouts.size===0){
-
         alert("Please select at least one workout.");
-
         return;
-
     }
 
     selectedWorkouts.forEach(index=>{
-
-        workouts[index].completed = true;
-
+        workouts[index].completed = !workouts[index].completed;
     });
 
     saveLocal();
-
     cancelSelection();
-
 }
 
 
@@ -638,6 +632,10 @@ function updateDashboard(){
 
 }
 function saveWorkout(){
+    alert("Save button works");
+
+
+    console.log("saveWorkout called");
 
     const name=document.getElementById("workoutName").value.trim();
     const schedule=document.getElementById("schedule").value;
@@ -930,6 +928,19 @@ function updateToolbar(){
 
     document.getElementById("cancelBtn").disabled =
         !selectionMode;
+
+        const completeBtn = document.getElementById("completeBtn");
+
+    if(selectedWorkouts.size === 0){
+        completeBtn.innerText = "✓ Complete";
+    }else{
+        const selected = [...selectedWorkouts];
+        const allCompleted = selected.every(i => workouts[i].completed);
+
+        completeBtn.innerText = allCompleted
+            ? "↩ Undo Complete"
+            : "✓ Complete";
+    }
 }
 
 function clearAll(){
