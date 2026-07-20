@@ -8,6 +8,36 @@
 
 <style>
 
+@media (max-width: 1000px){
+
+    #taskList{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media (max-width:700px){
+
+    #taskList{
+        grid-template-columns:1fr;
+    }
+    .bottomBar{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:15px;
+    width:auto;
+    border-radius:18px;
+    justify-content:space-between;
+    padding:12px;
+}
+
+.bottomBar button{
+    flex:1;
+}
+    
+}
+
 *{
     margin:0;
     padding:0;
@@ -16,8 +46,10 @@
 }
 
 body{
+
     background:#edf2f7;
     padding:30px;
+    padding-bottom:100px;
 }
 
 .container{
@@ -107,14 +139,39 @@ textarea{
 button{
     border:none;
     cursor:pointer;
-    padding:5px 5px;
-    border-radius:8px;
-    color:white;
+    border-radius:12px;
+    padding:12px 20px;
+    min-height:48px;
     font-size:15px;
+    font-weight:600;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:all .25s ease;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,0,0,.20);
+}
+
+button:active{
+    transform:translateY(0);
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+
+button:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    transform:none;
+    box-shadow:none;
 }
 
 .saveBtn{
-    background:#27ae60;
+    background:linear-gradient(135deg,#2ecc71,#27ae60);
 }
 
 .saveBtn:hover{
@@ -122,7 +179,7 @@ button{
 }
 
 .secondary{
-    background:#3498db;
+    background:linear-gradient(135deg,#4facfe,#3498db);
 }
 
 .secondary:hover{
@@ -130,7 +187,7 @@ button{
 }
 
 .warning{
-    background:#e67e22;
+    background:linear-gradient(135deg,#f6b93b,#e67e22);
 }
 
 .warning:hover{
@@ -138,13 +195,54 @@ button{
 }
 
 .danger{
-    background:#e74c3c;
+    background:linear-gradient(135deg,#ff6b6b,#e74c3c);
 }
 
 .danger:hover{
     background:#c0392b;
 }
 
+.bottomBar button:nth-child(1){
+    background:linear-gradient(135deg,#00c6ff,#0072ff);
+    color:white;
+}
+
+.bottomBar button:nth-child(2){
+    background:linear-gradient(135deg,#6c5ce7,#4834d4);
+    color:white;
+}
+
+.bottomBar button:nth-child(3){
+    background:linear-gradient(135deg,#4facfe,#3498db);
+    color:white;
+}
+
+.bottomBar button:nth-child(4){
+    background:linear-gradient(135deg,#2ecc71,#27ae60);
+    color:white;
+}
+
+.bottomBar button:nth-child(5){
+    background:linear-gradient(135deg,#ff6b6b,#e74c3c);
+    color:white;
+}
+
+.bottomBar button:nth-child(6){
+    background:linear-gradient(135deg,#95a5a6,#7f8c8d);
+    color:white;
+}
+.bottomBar{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    background:#fff;
+    padding:15px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
 .task-inline{
     background:white;
     border-left:8px solid #3498db;
@@ -159,10 +257,11 @@ button{
     border-radius:12px;
     padding:18px;
     box-shadow:0 2px 8px rgba(0,0,0,.1);
-
     display:flex;
     flex-direction:column;
     height:100%;
+    position:relative;
+    padding-left:48px;
 }
 
 .task.completed{
@@ -235,6 +334,19 @@ button{
     grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
     gap:20px;
 }
+.task{
+    position:relative;
+}
+
+.selector{
+    position:absolute;
+    top:18px;
+    left:18px;   /* Change to left:18px if you prefer */
+    width:22px;
+    height:22px;
+    cursor:pointer;
+    accent-color:#3498db;
+}
 
 .hidden{
     display:none;
@@ -248,6 +360,30 @@ button{
 
 button{
     width:100%;
+}
+
+.bottomBar{
+
+    position:fixed;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    background:white;
+
+    padding:15px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    box-shadow:0 -3px 10px rgba(0,0,0,.15);
+
 }
 
 }
@@ -340,18 +476,47 @@ Save Workout
 
 <div class="bottomBar">
 
-<button
-class="danger"
-onclick="clearAll()">
-Clear All
-</button>
+    <button onclick="addNewWorkout()">
+        ➕ Add
+    </button>
 
+    <button onclick="toggleSelectionMode()">
+        ☑ Select
+    </button>
+
+    <button id="editBtn"
+            class="hidden"
+            onclick="editSelected()">
+        ✏ Edit
+    </button>
+
+    <button id="completeBtn"
+            class="hidden"
+            onclick="completeSelected()">
+        ✓ Complete
+    </button>
+
+    <button id="deleteBtn"
+            class="hidden"
+            onclick="deleteSelected()">
+        🗑 Delete
+    </button>
+
+    <button id="cancelBtn"
+            class="hidden"
+            onclick="cancelSelection()">
+        ✖ Cancel
+    </button>
 
 </div>
 
 <script>
+    
 
 let workouts = JSON.parse(localStorage.getItem("runningPlanner")) || [];
+
+let selectionMode = false;
+let selectedWorkouts = new Set();
 
 let editIndex = -1;
 
@@ -365,6 +530,94 @@ function saveLocal(){
 function formatDate(date){
 
     return new Date(date).toLocaleString();
+
+}
+function addNewWorkout(){
+
+    cancelSelection();
+
+    editIndex = -1;
+
+    document.getElementById("formTitle").innerText = "Add Workout";
+
+    document.getElementById("workoutName").value = "";
+    document.getElementById("schedule").value = "";
+    document.getElementById("venue").value = "";
+    document.getElementById("description").value = "";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+function editSelected(){
+
+    if(selectedWorkouts.size===0){
+
+        alert("Please select one workout.");
+
+        return;
+
+    }
+
+    if(selectedWorkouts.size>1){
+
+        alert("Please select only one workout to edit.");
+
+        return;
+
+    }
+
+    const index = [...selectedWorkouts][0];
+
+    cancelSelection();
+
+    editWorkout(index);
+
+}
+function completeSelected(){
+
+    if(selectedWorkouts.size===0){
+
+        alert("Please select at least one workout.");
+
+        return;
+
+    }
+
+    selectedWorkouts.forEach(index=>{
+
+        workouts[index].completed = true;
+
+    });
+
+    saveLocal();
+
+    cancelSelection();
+
+}
+
+
+function deleteSelected(){
+
+    if(selectedWorkouts.size===0){
+
+        alert("Please select at least one workout.");
+
+        return;
+
+    }
+
+    if(!confirm(`Delete ${selectedWorkouts.size} workout(s)?`))
+        return;
+
+    workouts = workouts.filter((w,index)=>!selectedWorkouts.has(index));
+
+    saveLocal();
+
+    cancelSelection();
 
 }
 
@@ -476,6 +729,13 @@ function renderTasks(){
             <span class="badge ${status}">
                 ${badge}
             </span>
+            ${selectionMode ? `
+<input
+    type="checkbox"
+    class="selector"
+    ${selectedWorkouts.has(realIndex) ? "checked" : ""}
+    onchange="toggleSelection(${realIndex}, this.checked)">
+` : ""}
 
             <h3>${workout.name}</h3>
 
@@ -489,33 +749,6 @@ function renderTasks(){
 
             <div class="description">${workout.description || "No description"}</div>
 
-            <div class="actions">
-
-                <button
-                    class="secondary"
-                    onclick="toggleComplete(${realIndex})">
-
-                    ${workout.completed ? "Undo" : "Complete"}
-
-                </button>
-
-                <button
-                    class="warning"
-                    onclick="editWorkout(${realIndex})">
-
-                    Edit
-
-                </button>
-
-                <button
-                    class="danger"
-                    onclick="deleteWorkout(${realIndex})">
-
-                    Delete
-
-                </button>
-
-            </div>
 
         `;
 
@@ -644,6 +877,61 @@ function importJSON(event){
 
 }
 
+function toggleSelection(index, checked){
+
+    if(checked)
+        selectedWorkouts.add(index);
+    else
+        selectedWorkouts.delete(index);
+
+    updateToolbar();
+
+}
+
+function cancelSelection(){
+
+    selectionMode=false;
+
+    selectedWorkouts.clear();
+
+    updateToolbar();
+
+    renderTasks();
+
+}
+function toggleSelectionMode(){
+
+    selectionMode = !selectionMode;
+
+    if(!selectionMode){
+        selectedWorkouts.clear();
+    }
+
+    updateToolbar();
+    renderTasks();
+
+}
+
+function updateToolbar(){
+
+    document.getElementById("editBtn").classList.toggle("hidden", !selectionMode);
+    document.getElementById("completeBtn").classList.toggle("hidden", !selectionMode);
+    document.getElementById("deleteBtn").classList.toggle("hidden", !selectionMode);
+    document.getElementById("cancelBtn").classList.toggle("hidden", !selectionMode);
+
+    document.getElementById("editBtn").disabled =
+        selectedWorkouts.size !== 1;
+
+    document.getElementById("completeBtn").disabled =
+        selectedWorkouts.size === 0;
+
+    document.getElementById("deleteBtn").disabled =
+        selectedWorkouts.size === 0;
+
+    document.getElementById("cancelBtn").disabled =
+        !selectionMode;
+}
+
 function clearAll(){
 
     if(!confirm("Delete ALL workouts?")){
@@ -659,7 +947,7 @@ function clearAll(){
     renderTasks();
 
 }
-
+updateToolbar();
 renderTasks();
 
 </script>
