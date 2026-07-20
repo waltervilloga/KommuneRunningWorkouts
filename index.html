@@ -21,10 +21,7 @@
     #taskList{
         grid-template-columns:1fr;
     }
-    body{
-        background: red;
-    }
-
+    
 }
 
 *{
@@ -251,9 +248,8 @@ button{
 
 #taskList{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
     gap:20px;
-    margin-top:20px;
 }
 
 .hidden{
